@@ -1,0 +1,30 @@
+.main {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    height: 5vh;
+    padding: 0px 20px;
+}
+
+.navbar_items {
+    list-style: none;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    gap: 20px;
+}
+
+.navbar_item {
+    a {
+        font-family: "Roboto";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 15px;
+        line-height: 18px;
+        color: #3c3b3b;
+    }
+}

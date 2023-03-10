@@ -1,0 +1,26 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.image_container {
+    flex: 1;
+
+    position: relative;
+}
+
+.actions {
+    height: 30px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    gap: 8px;
+}
+
+.image_item {
+    border-radius: 12px;
+}

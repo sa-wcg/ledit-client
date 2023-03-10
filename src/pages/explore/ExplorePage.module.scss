@@ -1,0 +1,30 @@
+.main {
+    min-height: 100vh;
+
+    padding: 20px;
+}
+
+.parent_container {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 16px;
+
+    grid-auto-rows: 40px;
+
+    @media (min-width: 480px) {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    @media (min-width: 769px) {
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    @media (min-width: 1025px) {
+        grid-template-columns: repeat(6, 1fr);
+    }
+
+    @media (min-width: 1200px) {
+        grid-template-columns: repeat(8, 1fr);
+    }
+}

@@ -21,7 +21,9 @@ const HomePage = () => {
                     <Link href="/explore">
                         <p className={classes.discover_text}>Discover</p>
                     </Link>
-                    <Image alt="bag" src={profile} />
+                    <Link href="/profile/mugiwara">
+                        <Image alt="bag" src={profile} />
+                    </Link>
                 </header>
                 <div className={classes.discover_img_div}>
                     <Image

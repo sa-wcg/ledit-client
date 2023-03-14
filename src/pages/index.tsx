@@ -10,20 +10,28 @@ import like from "@/assets/images/like.png";
 import jeans from "@/assets/images/jeans.png";
 import Link from "next/link";
 
+import classes from "./HomePage.module.scss";
+
 const HomePage = () => {
     return (
         <>
             <HeadComponent />
-            <div className="ratemyfit-div">
-                <header className="header-div">
+            <div className={classes.ratemyfit_div}>
+                <header className={classes.header_div}>
                     <Link href="/explore">
-                        <p className="discover-text">Discover</p>
+                        <p className={classes.discover_text}>Discover</p>
                     </Link>
                     <Image alt="bag" src={profile} />
                 </header>
-                <div className="discover-img-div">
-                    <Image alt="fit-img" src={shaheen} className="fit-img" />
-                    <div className="shop-look scroll-div">
+                <div className={classes.discover_img_div}>
+                    <Image
+                        alt="fit_img"
+                        src={shaheen}
+                        className={classes.fit_img}
+                    />
+                    <div
+                        className={`${classes.shop_look} ${classes.scroll_div}`}
+                    >
                         <p>
                             s h o p
                             <br />
@@ -32,93 +40,99 @@ const HomePage = () => {
                             <br />
                             <br />l o o k
                         </p>
-                        <Image alt="down-arrow" src={downArrow} />
-                        <Image alt="down-arrow" src={downArrow} />
-                        <Image alt="down-arrow" src={downArrow} />
+                        <Image alt="down_arrow" src={downArrow} />
+                        <Image alt="down_arrow" src={downArrow} />
+                        <Image alt="down_arrow" src={downArrow} />
                     </div>
                 </div>
-                <div className="share-div">
-                    <Image alt="share-icon" src={share} />
-                    <Image alt="like-icon" src={like} />
+                <div className={classes.share_div}>
+                    <Image alt="share_icon" src={share} />
+                    <Image alt="like_icon" src={like} />
                 </div>
 
-                <div className="shop-exact-match-div">
+                <div className={classes.shop_exact_match_div}>
                     <Image alt="jeans" src={jeans} />
-                    <div className="exact-match-div">
+                    <div className={classes.exact_match_div}>
                         <p>exact match</p>
                     </div>
-                    <button className="shop-btn">Shop</button>
-                    {/* <div className='share-div exact-share-div'> */}
+                    <button className={classes.shop_btn}>Shop</button>
+                    {/* <div className='share_div exact_share_div'> */}
                     <Image
-                        alt="share-icon"
+                        alt="share_icon"
                         src={share}
-                        className="share-btn-exact"
+                        className={classes.share_btn_exact}
                     />
                     <Image
-                        alt="like-icon"
+                        alt="like_icon"
                         src={like}
-                        className="like-btn-exact"
+                        className={classes.like_btn_exact}
                     />
                     {/* </div> */}
                 </div>
-                <div className="shop-lookalike-row-div">
-                    <div className="shop-matching-div shop-exact-match-div">
+                <div className={classes.shop_lookalike_row_div}>
+                    <div
+                        className={`${classes.shop_matching_div} ${classes.shop_exact_match_div}`}
+                    >
                         <Image alt="jeans" src={jeans} />
                         <Image
-                            alt="share-icon"
+                            alt="share_icon"
                             src={share}
-                            className="share-btn-exact"
+                            className={classes.share_btn_exact}
                         />
                         <Image
-                            alt="like-icon"
+                            alt="like_icon"
                             src={like}
-                            className="like-btn-exact"
+                            className={classes.like_btn_exact}
                         />
                     </div>
-                    <div className="shop-matching-div shop-exact-match-div">
+                    <div
+                        className={`${classes.shop_matching_div} ${classes.shop_exact_match_div}`}
+                    >
                         <Image alt="jeans" src={jeans} />
                         <Image
-                            alt="share-icon"
+                            alt="share_icon"
                             src={share}
-                            className="share-btn-exact"
+                            className={classes.share_btn_exact}
                         />
                         <Image
-                            alt="like-icon"
+                            alt="like_icon"
                             src={like}
-                            className="like-btn-exact"
+                            className={classes.like_btn_exact}
                         />
                     </div>
                 </div>
 
-                <div className="shop-other-looks-div">
-                    <p className="shop-others-text">Shop Other Looks</p>
-                    <div className="other-looks-div-row">
+                <div className={classes.shop_other_looks_div}>
+                    <p className={classes.shop_others_text}>Shop Other Looks</p>
+                    <div className={classes.other_looks_div_row}>
                         <Image
                             alt="shaleen2"
                             src={shaleen2}
-                            className="other-look-img"
+                            className={classes.other_look_img}
                         />
                         <Image
                             alt="shaleen2"
                             src={shaleen2}
-                            className="other-look-img"
+                            className={classes.other_look_img}
                         />
                         <Image
                             alt="shaleen2"
                             src={shaleen2}
-                            className="other-look-img"
+                            className={classes.other_look_img}
                         />
                     </div>
                 </div>
 
-                <p className="sign-up-txt">sign up for our newsletter</p>
+                <p className={classes.sign_up_txt}>
+                    sign up for our newsletter
+                </p>
 
                 <input
-                    className="email-input"
+                    className={classes.email_input}
                     type={"text"}
                     placeholder={"Enter your email here"}
                 />
-                <button className="subscribe-btn">subscribe</button>
+                <button className={classes.subscribe_btn}>subscribe</button>
             </div>
         </>
     );

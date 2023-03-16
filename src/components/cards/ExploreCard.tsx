@@ -8,10 +8,8 @@ import classes from "./ExploreCard.module.scss";
 
 type Image = {
     id: string;
-    urls: {
-        full: string;
-    };
-};
+    url: string;
+}
 
 type Props = {
     image: Image;
@@ -22,12 +20,12 @@ const ExploreCard = ({ image }: Props) => {
         <div
             className={classes.main}
             style={{
-                gridRow: `span ${generateRandomInteger(5, 9)}`,
+                gridRow: `span ${generateRandomInteger(5, 7)}`,
             }}
         >
             <div className={classes.image_container}>
                 <Image
-                    src={image.urls.full}
+                    src={image.url}
                     className={classes.image_item}
                     alt="image"
                     fill

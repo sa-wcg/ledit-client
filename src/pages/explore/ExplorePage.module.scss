@@ -4,6 +4,41 @@
     padding: 20px;
 }
 
+.navigation {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    gap: 20px;
+}
+
+.nav_item {
+    width: 70px;
+    outline: none;
+    border: none;
+    background: none;
+
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+    text-align: center;
+    letter-spacing: 0.03em;
+    text-transform: capitalize;
+
+    /* black */
+
+    color: #272727;
+
+    margin: 20px 0px;
+}
+
+.active {
+    text-decoration: underline;
+}
+
 .parent_container {
     display: grid;
 

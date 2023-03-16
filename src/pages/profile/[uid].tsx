@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import HeadComponent from "@/components/head/HeadComponent";
@@ -15,20 +15,44 @@ import tagsInActiveIcon from "@/assets/images/profile/tags-inactive.svg";
 import addIcon from "@/assets/images/profile/add-icon.svg";
 
 import data from "../explore/data.json";
+import NavbarComponent from "@/components/navbar";
+import LoadingComponent from "@/components/loading/LoadingComponent";
+import { getUserProfile } from "@/services/creator.services";
 
 const ProfilePage = () => {
     const router = useRouter();
-    const { pid } = router.query;
+    const { uid } = router.query;
 
     const [userData, setUserData] = useState<any>(null);
     const [navigationPane, setNavigationPane] = useState<0 | 1 | 2>(0);
+    const [loading, setLoading] = useState<boolean>(true);
+
+    console.log({ uid });
+
+    const getProfileData = useCallback(async () => {
+        if (!uid) return;
+
+        const { data, error } = await getUserProfile(uid as string);
+
+        if (!!error) return;
+
+        setUserData(data.data);
+        setLoading(false);
+    }, [uid]);
+
+    useEffect(() => {
+        getProfileData();
+    }, [getProfileData]);
+
+    if (loading) return <LoadingComponent fill />;
 
     return (
         <>
             <HeadComponent title={userData || "Profile"} />
+            <NavbarComponent />
             <section className={classes.profile_details_section}>
                 <Image
-                    src={data.results[0].urls.raw}
+                    src={userData.images[0].url}
                     className={classes.pfp_avatar}
                     width={100}
                     height={100}
@@ -41,13 +65,8 @@ const ProfilePage = () => {
                     height={20}
                     alt="add_icon"
                 />
-                <p className={classes.username}>Shaleen</p>
-                <p className={classes.biography}>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Porro omnis minus, dolore culpa necessitatibus magni
-                    recusandae aut, saepe deserunt, nemo delectus explicabo
-                    minima animi ex tempore repellendus perspiciatis esse fugit!
-                </p>
+                <p className={classes.username}>{userData.creator.full_name}</p>
+                <p className={classes.biography}>{userData.creator.bio}</p>
             </section>
             <div className={classes.section_divider} />
             <section className={classes.profile_data}>
@@ -108,9 +127,13 @@ const ProfilePage = () => {
                     </button>
                 </div>
                 <div className={classes.profile_content}>
-                    {data.results.slice(1).map((post) => (
-                        <div key={post.urls.raw} className={classes.post}>
-                            <Image src={post.urls.raw} alt="post" fill />
+                    {userData.images.map((image: any) => (
+                        <div key={image.url} className={classes.post}>
+                            <Image
+                                src={image.url.split("?")[0]}
+                                alt="post"
+                                fill
+                            />
                         </div>
                     ))}
                 </div>

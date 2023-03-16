@@ -11,46 +11,36 @@ import jeans from "@/assets/images/jeans.png";
 import Link from "next/link";
 
 import classes from "./HomePage.module.scss";
+import NavbarComponent from "@/components/navbar";
 
 const HomePage = () => {
     return (
         <>
             <HeadComponent />
+            <NavbarComponent />
             <div className={classes.ratemyfit_div}>
-                <header className={classes.header_div}>
-                    <Link href="/explore">
-                        <p className={classes.discover_text}>Discover</p>
-                    </Link>
-                    <Link href="/profile/mugiwara">
-                        <Image alt="bag" src={profile} />
-                    </Link>
-                </header>
                 <div className={classes.discover_img_div}>
                     <Image
                         alt="fit_img"
                         src={shaheen}
                         className={classes.fit_img}
                     />
-                    <div
-                        className={`${classes.shop_look} ${classes.scroll_div}`}
-                    >
-                        <p>
-                            s h o p
-                            <br />
-                            <br />
-                            t h e
-                            <br />
-                            <br />l o o k
+                </div>
+
+                <div className={classes.bottom_div}>
+                    <div className={classes.account_details}>
+                        <p className={classes.username}>@Shaleen</p>
+                        <p className={classes.biography}>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Lorem Ipsum
                         </p>
-                        <Image alt="down_arrow" src={downArrow} />
-                        <Image alt="down_arrow" src={downArrow} />
-                        <Image alt="down_arrow" src={downArrow} />
+                    </div>
+                    <div className={classes.share_div}>
+                        <Image alt="share_icon" src={share} />
+                        <Image alt="like_icon" src={like} />
                     </div>
                 </div>
-                <div className={classes.share_div}>
-                    <Image alt="share_icon" src={share} />
-                    <Image alt="like_icon" src={like} />
-                </div>
+
+                <h1 className={classes.shop_tagline}>Shop The Look</h1>
 
                 <div className={classes.shop_exact_match_div}>
                     <Image alt="jeans" src={jeans} />
@@ -60,14 +50,14 @@ const HomePage = () => {
                     <button className={classes.shop_btn}>Shop</button>
                     {/* <div className='share_div exact_share_div'> */}
                     <Image
-                        alt="share_icon"
-                        src={share}
-                        className={classes.share_btn_exact}
-                    />
-                    <Image
                         alt="like_icon"
                         src={like}
                         className={classes.like_btn_exact}
+                    />
+                    <Image
+                        alt="share_icon"
+                        src={share}
+                        className={classes.share_btn_exact}
                     />
                     {/* </div> */}
                 </div>
@@ -77,14 +67,14 @@ const HomePage = () => {
                     >
                         <Image alt="jeans" src={jeans} />
                         <Image
-                            alt="share_icon"
-                            src={share}
-                            className={classes.share_btn_exact}
-                        />
-                        <Image
                             alt="like_icon"
                             src={like}
                             className={classes.like_btn_exact}
+                        />
+                        <Image
+                            alt="share_icon"
+                            src={share}
+                            className={classes.share_btn_exact}
                         />
                     </div>
                     <div
@@ -92,18 +82,17 @@ const HomePage = () => {
                     >
                         <Image alt="jeans" src={jeans} />
                         <Image
-                            alt="share_icon"
-                            src={share}
-                            className={classes.share_btn_exact}
-                        />
-                        <Image
                             alt="like_icon"
                             src={like}
                             className={classes.like_btn_exact}
                         />
+                        <Image
+                            alt="share_icon"
+                            src={share}
+                            className={classes.share_btn_exact}
+                        />
                     </div>
                 </div>
-
                 <div className={classes.shop_other_looks_div}>
                     <p className={classes.shop_others_text}>Shop Other Looks</p>
                     <div className={classes.other_looks_div_row}>

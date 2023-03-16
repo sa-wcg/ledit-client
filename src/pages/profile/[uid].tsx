@@ -14,10 +14,10 @@ import timelineInActiveIcon from "@/assets/images/profile/timeline-inactive.svg"
 import tagsInActiveIcon from "@/assets/images/profile/tags-inactive.svg";
 import addIcon from "@/assets/images/profile/add-icon.svg";
 
-import data from "../explore/data.json";
 import NavbarComponent from "@/components/navbar";
 import LoadingComponent from "@/components/loading/LoadingComponent";
 import { getUserProfile } from "@/services/creator.services";
+import Link from "next/link";
 
 const ProfilePage = () => {
     const router = useRouter();
@@ -128,13 +128,17 @@ const ProfilePage = () => {
                 </div>
                 <div className={classes.profile_content}>
                     {userData.images.map((image: any) => (
-                        <div key={image.url} className={classes.post}>
+                        <Link
+                            href={`/discover/${image._id}`}
+                            key={image.url}
+                            className={classes.post}
+                        >
                             <Image
                                 src={image.url.split("?")[0]}
                                 alt="post"
                                 fill
                             />
-                        </div>
+                        </Link>
                     ))}
                 </div>
             </section>

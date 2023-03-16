@@ -5,9 +5,10 @@ import favouriteImage from "@/assets/images/favorite.svg";
 import shareImage from "@/assets/images/share.svg";
 
 import classes from "./ExploreCard.module.scss";
+import Link from "next/link";
 
 type Image = {
-    id: string;
+    _id: string;
     url: string;
 }
 
@@ -17,7 +18,8 @@ type Props = {
 
 const ExploreCard = ({ image }: Props) => {
     return (
-        <div
+        <Link
+            href={`/discover/${image._id}`}
             className={classes.main}
             style={{
                 gridRow: `span ${generateRandomInteger(5, 7)}`,
@@ -40,7 +42,7 @@ const ExploreCard = ({ image }: Props) => {
                 />
                 <Image src={shareImage} alt="share" width={16} height={16} />
             </div>
-        </div>
+        </Link>
     );
 };
 

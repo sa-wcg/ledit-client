@@ -1,4 +1,4 @@
-const BASE_URL = "http://54.237.9.13:8080/v1";
+const BASE_URL = "https://ledit.saratangajala.com/v1";
 
 export const GET_PROFILE_URL = `${BASE_URL}/creator/profile`;
 

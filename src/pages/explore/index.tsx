@@ -4,7 +4,6 @@ import LoadingComponent from "@/components/loading/LoadingComponent";
 import NavbarComponent from "@/components/navbar";
 import { getExplorePage } from "@/services/creator.services";
 import { useCallback, useEffect, useState } from "react";
-import data from "./data.json";
 
 import classes from "./ExplorePage.module.scss";
 

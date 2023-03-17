@@ -46,7 +46,7 @@ const HomePage = () => {
         setSuggestions(
             data.data.images.filter((image: any) => image._id !== id)
         );
-    }, [outfitData]);
+    }, [id, outfitData]);
 
     useEffect(() => {
         getOutfitData();
@@ -74,7 +74,10 @@ const HomePage = () => {
 
                 <div className={classes.bottom_div}>
                     <div className={classes.account_details}>
-                        <Link href={`/profile/${outfitData.data.creator.username}`} className={classes.username}>
+                        <Link
+                            href={`/profile/${outfitData.data.creator.username}`}
+                            className={classes.username}
+                        >
                             @{outfitData.data.creator.full_name}
                         </Link>
                         <p className={classes.biography}>
@@ -191,6 +194,7 @@ const HomePage = () => {
                     <div className={classes.other_looks_div_row}>
                         {suggestions.slice(0, 3).map((image: any) => (
                             <Link
+                                key={image.url}
                                 href={`/discover/${image._id}`}
                                 className={classes.outfit_div}
                             >

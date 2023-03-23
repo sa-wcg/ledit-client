@@ -2,31 +2,35 @@ import ExploreCard from "@/components/cards/ExploreCard";
 import HeadComponent from "@/components/head/HeadComponent";
 import LoadingComponent from "@/components/loading/LoadingComponent";
 import NavbarComponent from "@/components/navbar";
-import { getExplorePage } from "@/services/creator.services";
-import { useCallback, useEffect, useState } from "react";
+import { useGetExplorePageDataQuery } from "@/redux/services/creator.service";
+import { useMemo, useState } from "react";
 
 import classes from "./HomePage.module.scss";
 
 const ExplorePage = () => {
     const [navPane, setNavPane] = useState<0 | 1>(0);
 
-    const [exploreData, setExploreData] = useState<any[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
+    const { data, error, isLoading } = useGetExplorePageDataQuery(0);
 
-    const getExploreData = useCallback(async () => {
-        const { data, error } = await getExplorePage();
+    const exploreData = useMemo(() => {
+        if (!data) return null;
 
-        if (!!error) return;
+        return data.data;
+    }, [data]);
 
-        setExploreData(data.data);
-        setLoading(false);
-    }, []);
+    if (isLoading) return <LoadingComponent fill />;
 
-    useEffect(() => {
-        getExploreData();
-    }, [getExploreData]);
-
-    if (loading) return <LoadingComponent fill />;
+    if (!exploreData || !!error) {
+        return (
+            <div>
+                {!!error ? (
+                    <h1>Request failed</h1>
+                ) : (
+                    <h1>Something Went Wrong</h1>
+                )}
+            </div>
+        );
+    }
 
     return (
         <>
@@ -53,7 +57,7 @@ const ExplorePage = () => {
                 </div>
                 <div className={classes.parent_container}>
                     {exploreData.map((image, ind) => (
-                        <ExploreCard key={image.url} image={image} flag={ind}/>
+                        <ExploreCard key={image.url} image={image} flag={ind} />
                     ))}
                 </div>
             </main>

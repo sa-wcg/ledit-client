@@ -6,57 +6,51 @@ import like from "@/assets/images/like.png";
 
 import classes from "./DiscoverPage.module.scss";
 import NavbarComponent from "@/components/navbar";
-import { useCallback, useEffect, useState } from "react";
+import { useMemo } from "react";
 import LoadingComponent from "@/components/loading/LoadingComponent";
 import { useRouter } from "next/router";
-import { getOutfit, getUserProfile } from "@/services/creator.services";
 import Link from "next/link";
+import {
+    useGetMatchesByIdQuery,
+    useGetProfileByUsernameQuery,
+} from "@/redux/services/creator.service";
+import { CreatorEntity } from "@/types";
 
 const HomePage = () => {
     const router = useRouter();
     const { id } = router.query;
 
-    const [loading, setLoading] = useState<boolean>(true);
-    const [outfitData, setOutfitData] = useState<any>();
-    const [suggestions, setSuggestions] = useState<any[]>([]);
+    const { data, error, isLoading, isFetching } = useGetMatchesByIdQuery(
+        id as string
+    );
 
-    const getOutfitData = useCallback(async () => {
-        if (!id) return;
+    const outfitData = useMemo(() => {
+        if (!data) return null;
 
-        setLoading(true);
+        return data.data;
+    }, [data]);
 
-        const { data, error } = await getOutfit(id as string);
+    const { data: profileData } = useGetProfileByUsernameQuery(
+        (outfitData?.data.creator as CreatorEntity).username as string,
+        {
+            skip: !outfitData,
+        }
+    );
 
-        if (!!error) return;
+    const suggestions = useMemo(() => {
+        if (!profileData) return null;
 
-        setOutfitData(data.data);
+        return profileData.data.images;
+    }, [profileData]);
 
-        setLoading(false);
-    }, [id]);
+    if (isLoading || isFetching) return <LoadingComponent fill />;
 
-    const getSimilar = useCallback(async () => {
-        if (!outfitData?.data?.creator?.username) return;
-
-        const { data, error } = await getUserProfile(
-            outfitData.data.creator.username
+    if (!outfitData || error)
+        return (
+            <div>
+                <h1>{!!error ? "Request Failed" : "Something went wrong"}</h1>
+            </div>
         );
-
-        if (!!error) return;
-
-        setSuggestions(
-            data.data.images.filter((image: any) => image._id !== id)
-        );
-    }, [id, outfitData]);
-
-    useEffect(() => {
-        getOutfitData();
-    }, [getOutfitData]);
-
-    useEffect(() => {
-        getSimilar();
-    }, [getSimilar]);
-
-    if (loading) return <LoadingComponent fill />;
 
     return (
         <>
@@ -75,13 +69,22 @@ const HomePage = () => {
                 <div className={classes.bottom_div}>
                     <div className={classes.account_details}>
                         <Link
-                            href={`/profile/${outfitData.data.creator.username}`}
+                            href={`/profile/${
+                                (outfitData.data.creator as CreatorEntity)
+                                    .username
+                            }`}
                             className={classes.username}
                         >
-                            @{outfitData.data.creator.full_name}
+                            @
+                            {(outfitData.data.creator as CreatorEntity)
+                                .full_name.length > 0
+                                ? (outfitData.data.creator as CreatorEntity)
+                                      .full_name
+                                : (outfitData.data.creator as CreatorEntity)
+                                      .username}
                         </Link>
                         <p className={classes.biography}>
-                            {outfitData.data.creator.bio}
+                            {(outfitData.data.creator as CreatorEntity).bio}
                         </p>
                     </div>
                     <div className={classes.share_div}>
@@ -92,14 +95,12 @@ const HomePage = () => {
 
                 <h1 className={classes.shop_tagline}>Shop The Look</h1>
 
-                {outfitData.results.brand_look[0]?.thumbnail && (
+                {outfitData.results.brand_look?.[0]?.thumbnail && (
                     <div className={classes.shop_exact_match_div}>
                         <div className={classes.outfit_div}>
                             <Image
                                 alt="jeans"
-                                src={
-                                    outfitData.results.gender_look[0]?.thumbnail
-                                }
+                                src={outfitData.results.brand_look[0].thumbnail}
                                 fill
                             />
                         </div>
@@ -107,7 +108,7 @@ const HomePage = () => {
                             <p>exact match</p>
                         </div>
                         <a
-                            href={outfitData.results.gender_look[0].link}
+                            href={outfitData.results.brand_look[0].link}
                             target="__blank"
                             className={classes.shop_btn}
                         >
@@ -128,7 +129,37 @@ const HomePage = () => {
                     </div>
                 )}
                 <div className={classes.shop_lookalike_row_div}>
-                    {outfitData.results.gender_look[0]?.thumbnail && (
+                    {outfitData.results.gender_look?.[0]?.thumbnail && (
+                        <div
+                            className={`${classes.shop_matching_div} ${classes.shop_exact_match_div}`}
+                        >
+                            <a
+                                href={outfitData.results.gender_look[0].link}
+                                className={classes.outfit_div_small}
+                                target="__blank"
+                            >
+                                <Image
+                                    alt="jeans"
+                                    src={
+                                        outfitData.results.gender_look[0]
+                                            .thumbnail
+                                    }
+                                    fill
+                                />
+                            </a>
+                            <Image
+                                alt="like_icon"
+                                src={like}
+                                className={classes.like_btn_exact}
+                            />
+                            <Image
+                                alt="share_icon"
+                                src={share}
+                                className={classes.share_btn_exact}
+                            />
+                        </div>
+                    )}
+                    {outfitData.results.gender_look?.[1]?.thumbnail && (
                         <div
                             className={`${classes.shop_matching_div} ${classes.shop_exact_match_div}`}
                         >
@@ -158,57 +189,30 @@ const HomePage = () => {
                             />
                         </div>
                     )}
-                    {outfitData.results.gender_look[0]?.thumbnail && (
-                        <div
-                            className={`${classes.shop_matching_div} ${classes.shop_exact_match_div}`}
-                        >
-                            <a
-                                href={outfitData.results.gender_look[2].link}
-                                className={classes.outfit_div_small}
-                                target="__blank"
-                            >
-                                <Image
-                                    alt="jeans"
-                                    src={
-                                        outfitData.results.gender_look[2]
-                                            .thumbnail
-                                    }
-                                    fill
-                                />
-                            </a>
-                            <Image
-                                alt="like_icon"
-                                src={like}
-                                className={classes.like_btn_exact}
-                            />
-                            <Image
-                                alt="share_icon"
-                                src={share}
-                                className={classes.share_btn_exact}
-                            />
+                </div>
+                {suggestions && (
+                    <div className={classes.shop_other_looks_div}>
+                        <p className={classes.shop_others_text}>
+                            Shop Other Looks
+                        </p>
+                        <div className={classes.other_looks_div_row}>
+                            {suggestions.slice(0, 3).map((image: any) => (
+                                <Link
+                                    key={image.url}
+                                    href={`/discover/${image._id}`}
+                                    className={classes.outfit_div}
+                                >
+                                    <Image
+                                        alt="suggestion"
+                                        src={image.url}
+                                        className={classes.other_look_img}
+                                        fill
+                                    />
+                                </Link>
+                            ))}
                         </div>
-                    )}
-                </div>
-                <div className={classes.shop_other_looks_div}>
-                    <p className={classes.shop_others_text}>Shop Other Looks</p>
-                    <div className={classes.other_looks_div_row}>
-                        {suggestions.slice(0, 3).map((image: any) => (
-                            <Link
-                                key={image.url}
-                                href={`/discover/${image._id}`}
-                                className={classes.outfit_div}
-                            >
-                                <Image
-                                    alt="suggestion"
-                                    src={image.url}
-                                    className={classes.other_look_img}
-                                    fill
-                                />
-                            </Link>
-                        ))}
                     </div>
-                </div>
-
+                )}
                 <p className={classes.sign_up_txt}>
                     sign up for our newsletter
                 </p>

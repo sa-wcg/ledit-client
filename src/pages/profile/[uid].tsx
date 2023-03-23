@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "next/router";
 
 import HeadComponent from "@/components/head/HeadComponent";
@@ -16,39 +16,38 @@ import addIcon from "@/assets/images/profile/add-icon.svg";
 
 import NavbarComponent from "@/components/navbar";
 import LoadingComponent from "@/components/loading/LoadingComponent";
-import { getUserProfile } from "@/services/creator.services";
 import Link from "next/link";
+import { useGetProfileByUsernameQuery } from "@/redux/services/creator.service";
 
 const ProfilePage = () => {
     const router = useRouter();
     const { uid } = router.query;
 
-    const [userData, setUserData] = useState<any>(null);
     const [navigationPane, setNavigationPane] = useState<0 | 1 | 2>(0);
-    const [loading, setLoading] = useState<boolean>(true);
 
-    console.log({ uid });
+    const { data, error, isLoading } = useGetProfileByUsernameQuery(
+        uid as string
+    );
 
-    const getProfileData = useCallback(async () => {
-        if (!uid) return;
+    const userData = useMemo(() => {
+        if (!data) return null;
 
-        const { data, error } = await getUserProfile(uid as string);
+        return data.data;
+    }, [data]);
 
-        if (!!error) return;
+    if (isLoading) return <LoadingComponent fill />;
 
-        setUserData(data.data);
-        setLoading(false);
-    }, [uid]);
-
-    useEffect(() => {
-        getProfileData();
-    }, [getProfileData]);
-
-    if (loading) return <LoadingComponent fill />;
+    if (!userData || !!error) {
+        return (
+            <div>
+                <h1>{!!error ? "Request Failed" : "Something went wrong"}</h1>
+            </div>
+        );
+    }
 
     return (
         <>
-            <HeadComponent title={userData || "Profile"} />
+            <HeadComponent title={userData ? "Profile" : undefined} />
             <NavbarComponent />
             <section className={classes.profile_details_section}>
                 <Image

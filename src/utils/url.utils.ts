@@ -1,4 +1,6 @@
-const BASE_URL = "https://ledit.saratangajala.com/v1";
+export const BASE_URL = "https://ledit.saratangajala.com/v1";
+
+export const BASE_CREATOR_URL = `${BASE_URL}/creator`;
 
 export const GET_PROFILE_URL = `${BASE_URL}/creator/profile`;
 

@@ -1,4 +1,5 @@
-export const BASE_URL = "https://ledit.saratangajala.com/v1";
+//export const BASE_URL = "https://ledit.saratangajala.com/v1";
+export const BASE_URL = "http://localhost:8080/v1";
 
 export const BASE_CREATOR_URL = `${BASE_URL}/creator`;
 

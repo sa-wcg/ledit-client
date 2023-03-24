@@ -16,7 +16,12 @@ interface GetProfileByUsernameResponse extends ResponseEntity {
 }
 
 interface GetExplorePageDataResponse extends ResponseEntity {
-    data: PostEntity[];
+    data: {
+        results: PostEntity[];
+        pageNumber: number;
+        pageSize: number;
+        count: number;
+    };
 }
 
 interface GetMatchesByIdResponse extends ResponseEntity {
